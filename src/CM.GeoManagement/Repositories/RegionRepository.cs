@@ -7,7 +7,7 @@ using CM.GeoManagement.BusinessEntities;
 
 namespace CM.GeoManagement.Repositories
 {
-    public class RegionRepository  : BaseRepository
+    public class RegionRepository  : BaseRepository, IRegionRepository
     {
         public void Create(Region region)
         {
@@ -43,5 +43,10 @@ namespace CM.GeoManagement.Repositories
             }
 
         }
+    }
+
+    public interface IRegionRepository
+    {
+        void Create(Region region);
     }
 }

@@ -99,5 +99,13 @@ namespace CM.GeoManagement.Tests
 
             return country;
         }
+
+        public Region MockRegion()
+        {
+            var country = new Region();
+            country.CountryCode = "US";
+
+            return country;
+        }
     }
 }

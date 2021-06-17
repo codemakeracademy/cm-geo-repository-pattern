@@ -11,7 +11,7 @@ namespace CM.GeoManagement.Repositories
     /// CRUD. Create Read, Update, Delete
     /// </summary>
 
-    public class CountryRepository : BaseRepository
+    public class CountryRepository : BaseRepository, ICountryRepository, IRepository<Country>
     {
         public void Create(Country country)
         {
@@ -58,7 +58,7 @@ namespace CM.GeoManagement.Repositories
             }
         }
 
-        public Country Read(string countryCode)
+        public virtual Country Read(string countryCode)
         {
             using (var connection = new SqlConnection("Server=.\\sql2019;Database=Blaze;Trusted_Connection=True;"))
             {
@@ -139,4 +139,113 @@ namespace CM.GeoManagement.Repositories
             }
         }
     }
+
+    public class CountryRepository2 : BaseRepository, IRepository<Country>
+    {
+        public void Create(Country entity)
+        {
+            var country = (Country) entity;
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+
+                var command = new SqlCommand(
+                    "INSERT INTO [Countries] (CountryCode, CountryName) " +
+                    "VALUES( @CountryCode, @CountryName)", connection);
+
+                var countryCodeParam = new SqlParameter("@CountryCode", SqlDbType.Char, 2)
+                {
+                    Value = country.CountryCode
+                };
+
+                var countryNameParam = new SqlParameter("@CountryName", SqlDbType.VarChar, 100)
+                {
+                    Value = country.CountryName
+                };
+
+                command.Parameters.Add(countryCodeParam);
+                command.Parameters.Add(countryNameParam);
+
+                command.ExecuteNonQuery();
+
+            }
+        }
+
+        public Country Read(string countryCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Country country)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string countryCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+
+                var deleteRegionsCommand = new SqlCommand(
+                    "DELETE FROM [Regions]", connection);
+                deleteRegionsCommand.ExecuteNonQuery();
+
+                var command = new SqlCommand(
+                    "DELETE FROM [Countries]", connection);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    public interface ICountryRepository
+    {
+        void Create(Country country);
+        Country Read(string countryCode);
+        void Update(Country country);
+        void Delete(string countryCode);
+
+    }
+
+    public interface IRepository<TEntity> where TEntity : Entity
+    {
+        void Create(TEntity country);
+        TEntity Read(string countryCode);
+        void Update(TEntity country);
+        void Delete(string countryCode);
+    }
+
+
+    public class Entity1Repository : IRepository<Region>
+    {
+        public void Create(Region country)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Region Read(string countryCode)
+        {
+            var t = new List<Country>();
+
+            throw new NotImplementedException();
+        }
+
+        public void Update(Region country)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string countryCode)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

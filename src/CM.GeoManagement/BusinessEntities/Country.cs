@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using CM.GeoManagement.Common;
+using CM.GeoManagement.Repositories;
 
 namespace CM.GeoManagement.BusinessEntities
 {
-    public class Country
+    public class Country : Entity
     {
         public string CountryCode { get; set; }
         public string CountryName { get; set; }
