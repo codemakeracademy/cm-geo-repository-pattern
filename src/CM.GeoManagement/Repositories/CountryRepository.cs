@@ -138,6 +138,34 @@ namespace CM.GeoManagement.Repositories
                 command.ExecuteNonQuery();
             }
         }
+
+        public List<Country> GetAll()
+        {
+            List<Country> countries = new List<Country>();
+
+            using (var connection = new SqlConnection("Server=.\\sql2019;Database=Blaze;Trusted_Connection=True;"))
+            {
+                connection.Open();
+
+                var command = new SqlCommand(
+                    "SELECT * FROM [Countries]", connection);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        countries.Add(new Country()
+                        {
+                            CountryCode = reader["CountryCode"]?.ToString(),
+                            CountryName = reader["CountryName"]?.ToString()
+                        });
+                    }
+                }
+
+            }
+
+            return countries;  
+        }
     }
 
     public class CountryRepository2 : BaseRepository, IRepository<Country>
@@ -212,6 +240,7 @@ namespace CM.GeoManagement.Repositories
         void Update(Country country);
         void Delete(string countryCode);
 
+        List<Country> GetAll();
     }
 
     public interface IRepository<TEntity> where TEntity : Entity

@@ -8,13 +8,20 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <PackageReference Include="coverlet.collector" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CM.GeoManagement\CM.GeoManagement.csproj" />
+    <ProjectReference Include="..\..\src\CM.GeoManagement.WebForms\CM.GeoManagement.WebForms.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web">
+      <HintPath>C:\Windows\Microsoft.NET\Framework\v4.0.30319\System.Web.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
