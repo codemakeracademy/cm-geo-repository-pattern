@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 using CM.GeoManagement.BusinessEntities;
 
 namespace CM.GeoManagement.Repositories
 {
-    public class RegionRepository  : BaseRepository, IRegionRepository
+    public class RegionRepository  : BaseRepository, IRegionRepository, IRepository<Region>
     {
         public void Create(Region region)
         {
@@ -43,10 +44,64 @@ namespace CM.GeoManagement.Repositories
             }
 
         }
+
+        public Region Read(string countryCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Region country)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string countryCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Region> ReadByCountryCode(string countryCode)
+        {
+            List<Region> regions = new List<Region>();
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+
+                var command = new SqlCommand(
+                    "SELECT * FROM [Regions] WHERE CountryCode = @CountryCode "
+                    , connection);
+
+                var countryCodeParam = new SqlParameter("@CountryCode", SqlDbType.Char, 2)
+                {
+                    Value = countryCode
+                };
+                
+                command.Parameters.Add(countryCodeParam);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        regions.Add(new Region()
+                        {
+                            CountryCode = reader["CountryCode"]?.ToString(),
+                            RegionCode = reader["RegionCode"]?.ToString(),
+                            RegionName = reader["RegionName"]?.ToString(),
+                        });
+                    }
+                }
+
+            }
+
+            return regions;
+        }
     }
 
     public interface IRegionRepository
     {
         void Create(Region region);
+
+        List<Region> ReadByCountryCode(string countryCode);
     }
 }

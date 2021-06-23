@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using CM.GeoManagement.Business;
 using CM.GeoManagement.BusinessEntities;
 using CM.GeoManagement.Repositories;
 
@@ -11,16 +12,16 @@ namespace CM.GeoManagement.WebForms
 {
     public partial class CountryEdit : System.Web.UI.Page
     {
-        private ICountryRepository _countryRepository;
+        private readonly ICountryService _countryService;
 
         public CountryEdit()
         {
-            _countryRepository = new CountryRepository();
+            _countryService = new CountryService();
         }
 
-        public CountryEdit(ICountryRepository countryRepository)
+        public CountryEdit(ICountryService countryService)
         {
-            _countryRepository = countryRepository;
+            _countryService = countryService;
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -31,16 +32,30 @@ namespace CM.GeoManagement.WebForms
 
                 LoadCountry(countryCodeReq);
             }
+            
+                var items = regionsRepeater.Items;
+            
         }
 
         public void LoadCountry(string countryCodeReq)
         {
             if (countryCodeReq != null)
             {
-                var country = _countryRepository.Read(countryCodeReq);
+                var country = _countryService.GetCountry(countryCodeReq);
 
                 countryCode.Text = country.CountryCode;
                 countryName.Text = country.CountryName;
+
+                country.Regions.Add(new Region());
+
+                regionsRepeater.DataSource = country.Regions;
+                regionsRepeater.DataBind();
+            }
+            else
+            {
+
+                regionsRepeater.DataSource = new List<Region>() {new Region()};
+                regionsRepeater.DataBind();
             }
         }
 
@@ -52,9 +67,9 @@ namespace CM.GeoManagement.WebForms
                 CountryName = countryName?.Text,
             };
 
-            _countryRepository.Create(country);
+            _countryService.Create(country);
 
-            Response?.Redirect("CountryList");
+          //  Response?.Redirect("CountryList");
         }
     }
 }

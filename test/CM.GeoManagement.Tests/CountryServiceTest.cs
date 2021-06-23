@@ -56,13 +56,13 @@ namespace CM.GeoManagement.Tests
         [Fact]
         public void ShouldRetryOnTimeOut()
         {
-            var countryCountryMock = new Mock< IRepository<Country>>();
+            var fixture = new CountryServiceFixture();
 
-            countryCountryMock
+            fixture.CountryRepositoryMock
                 .Setup(x => x.Read("US"))
                 .Throws<TimeoutException>();
 
-            var service = new CountryService(countryCountryMock.Object);
+            var service = fixture.CreateService();
             
             Assert.Throws<TimeoutException>(() => service.GetCountry("US"));
         }
@@ -130,11 +130,14 @@ namespace CM.GeoManagement.Tests
         public CountryServiceFixture()
         {
             CountryRepositoryMock = new Mock<IRepository<Country>>();
+            RegionRepositoryMock = new Mock<IRegionRepository>();
 
             CountryRepositoryMock
                 .Setup(x => x.Read("US"))
                 .Returns(() => CreateCountry());
         }
+
+        public Mock<IRegionRepository> RegionRepositoryMock { get; set; }
 
         public Country CreateCountry()
         {
@@ -145,7 +148,8 @@ namespace CM.GeoManagement.Tests
 
         public CountryService CreateService()
         {
-            return new CountryService(CountryRepositoryMock.Object);
+            return new CountryService(CountryRepositoryMock.Object,
+                RegionRepositoryMock.Object);
         }
     }
 }

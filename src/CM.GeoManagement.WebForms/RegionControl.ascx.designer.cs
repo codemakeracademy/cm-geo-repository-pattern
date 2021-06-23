@@ -11,34 +11,25 @@ namespace CM.GeoManagement.WebForms
 {
 
 
-    public partial class CountryEdit
+    public partial class RegionControl
     {
 
         /// <summary>
-        /// countryCode control.
+        /// regionCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox countryCode;
+        protected global::System.Web.UI.WebControls.TextBox regionCode;
 
         /// <summary>
-        /// countryName control.
+        /// regionName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox countryName;
-
-        /// <summary>
-        /// regionsRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater regionsRepeater;
+        protected global::System.Web.UI.WebControls.TextBox regionName;
     }
 }

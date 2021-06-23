@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using CM.GeoManagement.Business;
 using CM.GeoManagement.BusinessEntities;
 using CM.GeoManagement.Repositories;
 using Moq;
@@ -17,13 +18,13 @@ namespace CM.GeoManagement.WebForms.Tests
         [Fact]
         public void ShouldCreateCountry()
         {
-            var countryRepository = new Mock<ICountryRepository>();
+            var countryService = new Mock<ICountryService>();
 
-            var countryEdit = new CountryEdit(countryRepository.Object);
+            var countryEdit = new CountryEdit(countryService.Object);
             
             countryEdit.OnSaveClick(this, EventArgs.Empty);
 
-            countryRepository
+            countryService
                 .Verify(x => x.Create(It.IsAny<Country>()));
         }
     }

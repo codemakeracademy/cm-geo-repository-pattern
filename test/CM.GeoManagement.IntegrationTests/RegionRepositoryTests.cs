@@ -32,6 +32,29 @@ namespace CM.GeoManagement.Tests
             regionRepository.Create(region);
 
         }
+
+        [Fact]
+        public void ShouldBeAbleToReadRegionsByCountryId()
+        {
+            var countryFixture = new CountryRepositoryFixture();
+            var country = countryFixture.CreateMockCountry();
+
+            var regionRepository = new RegionRepository();
+            var region = new Region();
+
+            region.RegionCode = "IL";
+            region.CountryCode = country.CountryCode;
+            region.RegionName = "Illinois";
+            
+            regionRepository.Create(region);
+
+            var regions = regionRepository.ReadByCountryCode(region.CountryCode);
+
+            Assert.True(regions.Count > 0);
+
+            Assert.Equal("IL", regions[0].RegionCode);
+            Assert.Equal("Illinois", regions[0].RegionName);
+        }
     }
 }
 
