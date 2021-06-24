@@ -6,6 +6,7 @@ using CM.GeoManagement.Repositories;
 
 namespace CM.GeoManagement.BusinessEntities
 {
+    [Serializable]
     public class Country : Entity
     {
         public string CountryCode { get; set; }

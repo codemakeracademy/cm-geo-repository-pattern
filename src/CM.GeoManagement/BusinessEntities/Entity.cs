@@ -1,5 +1,8 @@
-﻿namespace CM.GeoManagement.BusinessEntities
+﻿using System;
+
+namespace CM.GeoManagement.BusinessEntities
 {
+    [Serializable]
     public class Entity
     {
 
