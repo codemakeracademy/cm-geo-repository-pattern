@@ -21,7 +21,7 @@ namespace CM.GeoManagement.Tests
         [Fact]
         public void ShouldGetCountryByCode()
         {
-            var countryCountryMock = new Mock< IRepository<Country>>();
+            var countryCountryMock = new Mock< ICountryRepository>();
 
             var countryExpected = new Country();
 
@@ -42,7 +42,7 @@ namespace CM.GeoManagement.Tests
         [Fact]
         public void ShouldThrowNullArgumentException()
         {
-            var countryCountryMock = new Mock< IRepository<Country>>();
+            var countryCountryMock = new Mock<ICountryRepository>();
 
             countryCountryMock
                 .Setup(x => x.Read("US"))
@@ -94,7 +94,7 @@ namespace CM.GeoManagement.Tests
         }
 
 
-        public class TestCountryRepositoryCustomMock : IRepository<Country>
+        public class TestCountryRepositoryCustomMock : IRepository<Country>, ICountryRepository
         {
             private readonly Country _expectedCountryOnRead;
 
@@ -122,6 +122,11 @@ namespace CM.GeoManagement.Tests
             {
                 throw new NotImplementedException();
             }
+
+            public List<Country> GetAll()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 
@@ -129,7 +134,7 @@ namespace CM.GeoManagement.Tests
     {
         public CountryServiceFixture()
         {
-            CountryRepositoryMock = new Mock<IRepository<Country>>();
+            CountryRepositoryMock = new Mock<ICountryRepository>();
             RegionRepositoryMock = new Mock<IRegionRepository>();
 
             CountryRepositoryMock
@@ -144,7 +149,7 @@ namespace CM.GeoManagement.Tests
             return new Country();
         }
 
-        public Mock<IRepository<Country>> CountryRepositoryMock { get; set; }
+        public Mock<ICountryRepository> CountryRepositoryMock { get; set; }
 
         public CountryService CreateService()
         {

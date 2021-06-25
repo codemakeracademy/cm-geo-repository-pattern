@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using CM.GeoManagement.BusinessEntities;
 using CM.GeoManagement.Repositories;
@@ -8,7 +9,7 @@ namespace CM.GeoManagement.Business
 {
     public class CountryService : ICountryService
     {
-        private readonly IRepository<Country> _countryRepository;
+        private readonly ICountryRepository _countryRepository;
         private readonly IRegionRepository _regionRepository;
 
         public CountryService()
@@ -17,7 +18,7 @@ namespace CM.GeoManagement.Business
             _regionRepository = new RegionRepository();
         }
 
-        public CountryService(IRepository<Country> countryRepository, 
+        public CountryService(ICountryRepository countryRepository, 
             IRegionRepository regionRepository = null)
         {
             _countryRepository = countryRepository;
@@ -69,11 +70,19 @@ namespace CM.GeoManagement.Business
 
             return country;
         }
+
+        public IReadOnlyCollection<Country> GetCountries()
+        {
+            var countries = _countryRepository.GetAll();
+            
+            return countries.ToArray();
+        }
     }
 
     public interface ICountryService
     {
         Country GetCountry(string countryCode);
         Country Create(Country country);
+        IReadOnlyCollection<Country> GetCountries();
     }
 }
