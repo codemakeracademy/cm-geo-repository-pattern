@@ -9,6 +9,7 @@ namespace CM.GeoManagement.BusinessEntities
     [Serializable]
     public class Country : Entity
     {
+
         public string CountryCode { get; set; }
         public string CountryName { get; set; }
         public List<Region> Regions { get; set; } = new List<Region>();

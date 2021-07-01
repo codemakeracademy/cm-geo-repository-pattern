@@ -106,7 +106,7 @@ namespace CM.GeoManagement.WebForms
         {
             _countryService.Create(Country);
 
-            Response?.Redirect("CountryList");
+          //  Response?.Redirect("CountryList");
         }
 
         protected void AddRegion(object sender, EventArgs e)
